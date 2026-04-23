@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - JobPortal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>body { background-color: #f3f2ef; }</style>
+</head>
+<body>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-body p-5">
+                    <h2 class="text-center mb-4 fw-bold" style="color: #0a66c2;">Make the most of your professional life</h2>
+                    <form th:action="@{/register}" th:object="${user}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-bold">Full Name</label>
+                            <input type="text" th:field="*{name}" class="form-control form-control-lg" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-bold">Email</label>
+                            <input type="email" th:field="*{email}" class="form-control form-control-lg" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-bold">Password</label>
+                            <input type="password" th:field="*{password}" class="form-control form-control-lg" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-bold">I am a...</label>
+                            <select th:field="*{role}" class="form-select form-select-lg" id="roleSelect" onchange="toggleFields()">
+                                <option value="SEEKER">Job Seeker</option>
+                                <option value="EMPLOYER">Employer / Hiring Manager</option>
+                            </select>
+                        </div>
+                        <div class="mb-4" id="employerFields" style="display: none;">
+                            <label class="form-label text-muted fw-bold">Company Name</label>
+                            <input type="text" th:field="*{companyName}" class="form-control form-control-lg">
+                        </div>
+                        <div class="mb-4" id="seekerFields">
+                            <label class="form-label text-muted fw-bold">Resume Link (Optional)</label>
+                            <input type="url" th:field="*{resumeLink}" class="form-control form-control-lg" placeholder="e.g. Google Drive link to PDF">
+                            <div class="form-text">You can add your resume link later from the dashboard.</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold" style="background-color: #0a66c2;">Agree & Join</button>
+                    </form>
+                    <div class="text-center mt-4">
+                        <p class="text-muted">Already on JobPortal? <a href="/login" class="text-decoration-none fw-bold">Sign in</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function toggleFields() {
+        const role = document.getElementById('roleSelect').value;
+        if(role === 'EMPLOYER') {
+            document.getElementById('employerFields').style.display = 'block';
+            document.getElementById('seekerFields').style.display = 'none';
+        } else {
+            document.getElementById('employerFields').style.display = 'none';
+            document.getElementById('seekerFields').style.display = 'block';
+        }
+    }
+    window.onload = toggleFields;
+</script>
+</body>
+</html>
